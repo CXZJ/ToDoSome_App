@@ -11,8 +11,8 @@ RUN npm install
 # Copy application files
 COPY . .
 
-# Expose the application port (server_port)
-EXPOSE 3002
+# Expose the application port (replace it with the server_port you received)
+EXPOSE 3032
 
 # Command to run the application
 CMD ["npm", "start"]

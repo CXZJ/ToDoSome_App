@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5001/service';
 
 const api = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -23,12 +24,21 @@ api.interceptors.request.use(
   }
 );
 
+// Add response interceptor for better error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message);
+    return Promise.reject(error);
+  }
+);
+
 // Auth API calls
 export const authAPI = {
-  signup: (userData) => api.post('/signup', userData),
-  activateEmail: (activationToken) => api.post('/activation', { activation_token: activationToken }),
-  signin: (credentials) => api.post('/signin', credentials),
-  getUserInfo: () => api.get('/user-infor'),
+  signup: (userData) => api.post('/user/signup', userData),
+  activateEmail: (activationToken) => api.post('/user/activation', { activation_token: activationToken }),
+  signin: (credentials) => api.post('/user/signin', credentials),
+  getUserInfo: () => api.get('/user/user-infor'),
   logout: () => {
     localStorage.removeItem('token');
     return Promise.resolve();
@@ -37,10 +47,10 @@ export const authAPI = {
 
 // Todo API calls
 export const todoAPI = {
-  getAllTodos: () => api.get('/get_all'),
-  createTodo: (todoData) => api.post('/add_todo', todoData),
-  updateTodo: (id, todoData) => api.patch(`/update_todo/${id}`, todoData),
-  deleteTodo: (id) => api.delete(`/delete_todo/${id}`),
+  getAllTodos: () => api.get('/todo/get_all'),
+  createTodo: (todoData) => api.post('/todo/add_todo', todoData),
+  updateTodo: (id, todoData) => api.patch(`/todo/update_todo/${id}`, todoData),
+  deleteTodo: (id) => api.delete(`/todo/delete_todo/${id}`),
 };
 
 export default api; 

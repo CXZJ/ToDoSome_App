@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signin } from '../features/auth/authSlice';
+import { signin } from '../store/slices/authSlice';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ const Login = () => {
     password: '',
   });
 
-  const { loading, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, isAuthenticated, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,13 +28,22 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signin(formData));
+    try {
+      await dispatch(signin(formData)).unwrap();
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
 
   return (
     <div className="max-w-md mx-auto mt-8">
       <div className="bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label

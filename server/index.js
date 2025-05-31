@@ -16,8 +16,11 @@ dotenv.config();
 app.use(express.json()); // Built-in body-parser for parsing JSON
 
 const corsOptions = {
-    origin: "*",
-    credentials: false,
+    origin: ["http://localhost:5173", "http://localhost:3000"],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['set-cookie']
 };
 
 app.use(cors(corsOptions)); // Enable Cross-Origin Resource Sharing

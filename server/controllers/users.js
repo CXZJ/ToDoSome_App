@@ -70,7 +70,7 @@ export const signUp = async (req, res) => {
         // create email notification for user activation
         const refreshToken = createRefreshToken(newUser)
 
-        const url = `${DEFAULT_CLIENT_URL}/user/activate/${refreshToken}`;
+        const url = `http://localhost:5173/activate/${refreshToken}`;
 
         userSendMail(email, url, "Verify your email address", "Confirm Email")
 
