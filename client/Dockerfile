@@ -1,21 +1,15 @@
 # Base image
-FROM node:18-alpine AS builder
+FROM node:alpine3.20 AS builder
 
 # Set working directory
 WORKDIR /app
 
 # Copy package files and install dependencies
-COPY package*.json ./
+COPY package.json ./
 RUN npm install
 
 # Copy application files
 COPY . .
-
-# Set environment variables
-ARG VITE_API_URL
-ARG VITE_CLIENT_URL
-ENV VITE_API_URL=$VITE_API_URL
-ENV VITE_CLIENT_URL=$VITE_CLIENT_URL
 
 # build the application
 RUN npm run build
@@ -33,4 +27,4 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 3125
 
 # Command to run the application
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "3125"]
+CMD ["nginx", "-g", "daemon off;"]
