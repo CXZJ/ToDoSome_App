@@ -38,4 +38,10 @@ jobs:
           build-args: |
             PORT=3126
             CLIENT_URL=http://e2425-wads-l4ccg2-brandon.csbihub.id
-            SERVER_URL=http://e2425-wads-l4ccg2-server-brandon.csbihub.id 
+            SERVER_URL=http://e2425-wads-l4ccg2-server-brandon.csbihub.id
+
+      - name: Stop and remove old containers
+        run: docker compose down
+
+      - name: Run new containers
+        run: docker compose up -d 
