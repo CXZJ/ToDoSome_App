@@ -1,5 +1,5 @@
 # Base image
-FROM node:alpine3.20
+FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
@@ -11,8 +11,15 @@ RUN npm install
 # Copy application files
 COPY . .
 
+ARG PORT
+ARG CLIENT_URL
+ARG SERVER_URL
+ENV PORT=$PORT
+ENV CLIENT_URL=$CLIENT_URL
+ENV SERVER_URL=$SERVER_URL
+
 # Expose the application port (replace it with the server_port you received)
-EXPOSE 3032
+EXPOSE 3126
 
 # Command to run the application
 CMD ["npm", "start"]

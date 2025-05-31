@@ -1,22 +1,37 @@
 version: "3.8"
 
 services:
-  backend:
-    image: cxzj/todolist-backend-brandon:latest
-    restart: always
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3125:3125"
     environment:
-      PORT: 5001
-      CONNECTION_URL: "mongodb+srv://Brandon:skibidi@cluster0.3lber.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-      REFRESH_TOKEN_SECRET: "skibiditoilet123"
-      EMAIL_USER: "bng22834@gmail.com"
-      EMAIL_PASSWORD: "wdph jvow agtr bdbd"
-    ports:
-      - "3032:3032"
-
-  frontend:
-    image: cxzj/todolist-frontend-brandon:latest
-    restart: always
+      - VITE_API_URL=http://e2425-wads-l4ccg2-server-brandon.csbihub.id
+      - VITE_CLIENT_URL=http://e2425-wads-l4ccg2-brandon.csbihub.id
     depends_on:
-      - backend
+      - server
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
     ports:
-      - "3031:3031"
+      - "3126:3126"
+    environment:
+      - PORT=3126
+      - CLIENT_URL=http://e2425-wads-l4ccg2-brandon.csbihub.id
+      - SERVER_URL=http://e2425-wads-l4ccg2-server-brandon.csbihub.id
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
