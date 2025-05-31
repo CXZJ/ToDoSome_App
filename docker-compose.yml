@@ -5,11 +5,11 @@ services:
     image: cxzj/todolist-backend-brandon:latest
     restart: always
     environment:
-      PORT: ${5001}
-      CONNECTION_URL: ${mongodb+srv://Brandon:skibidi@cluster0.3lber.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0}
-      REFRESH_TOKEN_SECRET: ${skibiditoilet123}
-      EMAIL_USER: ${bng22834@gmail.com}
-      EMAIL_PASSWORD: ${wdph jvow agtr bdbd}
+      PORT: 5001
+      CONNECTION_URL: "mongodb+srv://Brandon:skibidi@cluster0.3lber.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+      REFRESH_TOKEN_SECRET: "skibiditoilet123"
+      EMAIL_USER: "bng22834@gmail.com"
+      EMAIL_PASSWORD: "wdph jvow agtr bdbd"
     ports:
       - "3032:3032"
 
